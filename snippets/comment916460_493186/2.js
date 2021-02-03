@@ -3,7 +3,7 @@ const { readFile, writeFile } = require('fs').promises;
 async function addClient(filename, clientData) {
   // Lê o arquivo e obtem o array atual:
   const data = await readFile(filename, 'utf-8');
-  const json = JSON.parse((data || '').trim() || '[]');
+  const json = JSON.parse(data || '[]');
 
   if (!Array.isArray(json)) {
     throw new Error(`Malformed JSON. Expected array, got: ${json}.`);
