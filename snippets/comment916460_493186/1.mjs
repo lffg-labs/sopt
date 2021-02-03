@@ -1,8 +1,8 @@
-import * as fs from 'fs/promises';
+import { readFile, writeFile } from 'fs/promises';
 
 async function addClient(filename, clientData) {
   // Lê o arquivo e obtem o array atual:
-  const data = await fs.readFile(filename, 'utf-8');
+  const data = await readFile(filename, 'utf-8');
   const json = JSON.parse(data?.trim() || '[]');
 
   if (!Array.isArray(json)) {
@@ -17,7 +17,7 @@ async function addClient(filename, clientData) {
   const jsonString = JSON.stringify(json);
 
   // Modificamos o arquivo:
-  await fs.writeFile(filename, jsonString);
+  await writeFile(filename, jsonString);
 }
 
 // Posso chamar quantas vezes for necessário, a estrutura sintática do JSON
