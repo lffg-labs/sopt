@@ -1,20 +1,30 @@
-const fs = require('fs');
-const file = __dirname + '/teste.json';
+import * as fs from 'fs/promises';
 
-// Primeiro, ler o arquivo para obter os dados originais:
-const data = fs.readFileSync(file, 'utf8');
+async function addClient(filename, clientData) {
+  // Lê o arquivo e obtem o array atual:
+  const data = await fs.readFile(filename, 'utf-8');
+  const json = JSON.parse(data?.trim() || '[]');
 
-// Faz o parse:
-const json = JSON.parse(data?.trim() || '{}');
+  if (!Array.isArray(json)) {
+    throw new Error(`Malformed JSON. Expected array, got: ${json}.`);
+  }
 
-// Modifica as informações. Pode fazer basicamente qualquer coisa aqui:
-Object.assign(json, {
-  nome: 'Smartphone',
-  preco: 1749.99,
-  desconto: 0.15
-});
+  // Note que mutamos o JSON diretamente para "adicionar o cliente", uma vez que
+  // sobre-escreveremos o arquivo com o novo conteúdo (modificado).
+  json.push(clientData);
 
-// Agora, ao invés de fazer um append no arquivo, simplesmente modifica o arquivo:
-fs.writeFileSync(file, JSON.stringify(json, null, 2));
+  // Transformamos o JSON modificado em string para sobre-escrever no arquivo:
+  const jsonString = JSON.stringify(json);
 
-// Note que eu utilizei os métodos síncronos do módulo fs, mas é melhor utilizar os assíncronos a depender da situação.
+  // Modificamos o arquivo:
+  await fs.writeFile(filename, jsonString);
+}
+
+// Posso chamar quantas vezes for necessário, a estrutura sintática do JSON
+// irá se manter válida.
+addClient('./data.json', {
+  name: 'Bob',
+  age: 10
+})
+  .then(() => console.log('OK.'))
+  .catch(console.error);
