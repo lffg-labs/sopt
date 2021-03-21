@@ -1,3 +1,5 @@
+# Referir à documentação:
+# https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize
 from unicodedata import normalize
 
 dicionario = {
