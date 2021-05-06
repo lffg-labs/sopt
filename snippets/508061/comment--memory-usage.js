@@ -26,3 +26,4 @@ async function clock() {
 }
 
 clock();
+// https://pt.stackoverflow.com/q/508061/69296
