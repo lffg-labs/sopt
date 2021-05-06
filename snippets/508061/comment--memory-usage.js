@@ -1,4 +1,5 @@
 function printUsage() {
+  // requires node.js to access `process.memoryUsage`:
   const used = process.memoryUsage();
   for (const key in used) {
     console.log(
@@ -7,23 +8,21 @@ function printUsage() {
   }
 }
 
-// padrão de 1 segundo
 function delay(time = 1e3) {
   return new Promise((resolve) => {
-    setTimeout(resolve, time); // resolve depois de X segundos
+    setTimeout(resolve, time);
   });
 }
 
 async function clock() {
   await delay(1);
 
-  // exibe a hora
   console.log(new Date().toLocaleTimeString());
   console.log(printUsage());
+  console.log('-----');
 
   // inicia a recursão
   return clock();
 }
 
-// bootstrap
 clock();
